@@ -10,9 +10,9 @@ function App() {
     <div>
         <BrowserRouter>
             <Routes>
-                {/* <Route path='/' element={<Dashboard />}></Route> */}
-                {/* <Route path='/' element={<DashboardMeasurement />}></Route> */}
-                <Route path='/' element={<Settings />}></Route>
+                <Route path='/' element={<Dashboard />}></Route>
+                <Route path='/dashboardmeasurement' element={<DashboardMeasurement />}></Route>
+                <Route path='/settings' element={<Settings />}></Route>
             </Routes>
         </BrowserRouter>
     </div>

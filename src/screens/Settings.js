@@ -1,28 +1,28 @@
 
 import logo from '../images/Secondary.png';
 import { Button, Table } from 'react-bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import './Settings.css';
 
 
 import Modal from 'react-bootstrap/Modal';
+import axios from 'axios';
 
 function Settings() {
 
+    const [data, setData] = useState([]);
 
-    const sensors = [
-        { 
-            customer: "Customer 1",
-            location: "Location 1",
-            sensorid: "1",
-        },
-        { 
-            customer: "Customer 2",
-            location: "Location 2",
-            sensorid: "2",
-        },
-    ]
+    useEffect(() => {
+        axios.get('http://15.207.185.137:3000/customerlist')
+        .then(response => {
+            setData(response.data.posts);
+            // console.log(response.data.posts)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, []);
 
 
     const [show, setShow] = useState(false);
@@ -45,7 +45,8 @@ function Settings() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(inputValues);
+        postData(inputValues);
+        // console.log(inputValues);
         setInputValues({
             customername: '',
             locationname: '',
@@ -53,6 +54,16 @@ function Settings() {
           });
         handleClose();
     };
+
+    const postData = async (data) => {
+        try {
+            // console.log(data);
+          const response = await axios.post('http://15.207.185.137:3000/customerlist', data);
+          console.log(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+    }
 
 
     return(
@@ -65,13 +76,13 @@ function Settings() {
                         </li>
                         <hr className="hr hr-blurry text-white" />
                         <li className="nav-item text-white fs-4">
-                            <a className="nav-link text-white fs-5" aria-current="page" href="#" >
+                            <a className="nav-link text-white fs-5" aria-current="page" href="/" >
                                 <i className='icon bi bi-houses'></i>
                                 <span className='ms-2 navtext'>Dashboard</span>
                             </a>
                         </li>
                         <li className="nav-item text-white fs-4">
-                            <a className="nav-link text-white fs-5" aria-current="page" href="#">
+                            <a className="nav-link text-white fs-5" aria-current="page" href="/settings">
                                 <i className='bi bi-gear icon'></i>
                                 <span className='ms-2 navtext'>Settings</span>
                             </a>
@@ -140,7 +151,7 @@ function Settings() {
                             </div>
                         </div>
                         <div style={{padding: "20px"}}>
-                            <Table className="table table-bordered">
+                            <Table class="table table-bordered">
                                 <thead >
                                     <tr>
                                         <th>Sl No</th>
@@ -151,13 +162,13 @@ function Settings() {
                                 </thead>
                                 <tbody>
                                     {
-                                        sensors.map((item, index) => {
+                                        data.map((item, index) => {
                                             return(
                                                 <tr key={index}>
                                                     <td>{index+1}</td>
                                                     <td>{item.customer}</td>
                                                     <td>{item.location}</td>
-                                                    <td>{item.sensorid}</td>
+                                                    <td>{item.thermal_sensors}</td>
                                                 </tr>
                                             )
                                         })

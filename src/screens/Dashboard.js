@@ -4,32 +4,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import logo from '../images/Secondary.png';
 import { Button, Table } from 'react-bootstrap';
+import { useNavigate  } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
 function Dashboard(){
 
-    const employeeList = [
-        { 
-            customer: "Customer 1",
-            location: "Location 1",
-            sensorid: "1",
-            lastresponded: "0:0:0",
-            totalimages: "0",
-            correct: "0",
-            wrong: "0"
-        },
-        { 
-            customer: "Customer 2",
-            location: "Location 2",
-            sensorid: "2",
-            lastresponded: "0:0:0",
-            totalimages: "0",
-            correct: "0",
-            wrong: "0"
-        },
-    ]
+    const [data, setData] = useState([]);
 
-    
+    useEffect(() => {
+        axios.get('http://15.207.185.137:3000/customerlist')
+        .then(response => {
+            setData(response.data.posts);
+            // console.log(response.data.posts)
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, []);
+
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate('/dashboardmeasurement');
+    }
 
 
     return(
@@ -42,13 +41,13 @@ function Dashboard(){
                         </li>
                         <hr class="hr hr-blurry text-white" />
                         <li class="nav-item text-white fs-4">
-                            <a class="nav-link text-white fs-5" aria-current="page" href="#" >
+                            <a class="nav-link text-white fs-5" aria-current="page" href="/" >
                                 <i className='icon bi bi-houses'></i>
                                 <span className='ms-2 navtext'>Dashboard</span>
                             </a>
                         </li>
                         <li class="nav-item text-white fs-4">
-                            <a class="nav-link text-white fs-5" aria-current="page" href="#">
+                            <a class="nav-link text-white fs-5" aria-current="page" href="/settings">
                                 <i className='bi bi-gear icon'></i>
                                 <span className='ms-2 navtext'>Settings</span>
                             </a>
@@ -142,18 +141,18 @@ function Dashboard(){
                                 </thead>
                                 <tbody>
                                     {
-                                        employeeList.map((item, index) => {
+                                        data.map((item, index) => {
                                             return(
                                                 <tr key={index}>
                                                     <td>{index+1}</td>
                                                     <td>{item.customer}</td>
                                                     <td>{item.location}</td>
-                                                    <td>{item.sensorid}</td>
-                                                    <td>{item.totalimages}</td>
-                                                    <td>{item.correct}</td>
-                                                    <td>{item.wrong}</td>
+                                                    <td>{item.thermal_sensors}</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
+                                                    <td>0</td>
                                                     <td>
-                                                        <Button type="button" class="btn btn-primary" onClick={() => alert(item.name)}>View</Button>
+                                                        <Button type="button" class="btn btn-primary" onClick={handleClick}>View</Button>
                                                     </td>
                                                 </tr>
                                             )

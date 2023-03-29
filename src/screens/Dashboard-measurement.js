@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import logo from '../images/Secondary.png';
 import { Button, Table } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 function DashboardMeasurement(){
@@ -30,7 +31,10 @@ function DashboardMeasurement(){
     ]
 
     
-
+    const navigate = useNavigate();
+    function back(){
+        navigate('/');
+    }
 
     return(
         <>
@@ -42,17 +46,17 @@ function DashboardMeasurement(){
                         </li>
                         <hr class="hr hr-blurry text-white" />
                         <li class="nav-item text-white fs-4">
-                            <a class="nav-link text-white fs-5" aria-current="page" href="#" >
+                            <a class="nav-link text-white fs-5" aria-current="page" href="/" >
                                 <i className='icon bi bi-houses'></i>
                                 <span className='ms-2 navtext'>Dashboard</span>
                             </a>
                         </li>
-                        <li class="nav-item text-white fs-4">
-                            <a class="nav-link text-white fs-5" aria-current="page" href="#">
+                        {/* <li class="nav-item text-white fs-4">
+                            <a class="nav-link text-white fs-5" aria-current="page" href="/settings">
                                 <i className='bi bi-gear icon'></i>
                                 <span className='ms-2 navtext'>Settings</span>
                             </a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div class="d-flex gap-5" style={{marginLeft: '2%', marginTop: '4%', height: '100%'}}>
@@ -147,7 +151,7 @@ function DashboardMeasurement(){
                                 <button style={{width: "7vw", height: '6vh'}}  type="button" class="btn btn-danger">Wrong</button>
                             </div>
                             <div>
-                                <button style={{width: "7vw", height: '6vh'}}  type="button" class="btn btn-secondary">Back</button>
+                                <button style={{width: "7vw", height: '6vh'}}  type="button" class="btn btn-secondary" onClick={back}>Back</button>
                             </div>
                         </div>
                     </div>
